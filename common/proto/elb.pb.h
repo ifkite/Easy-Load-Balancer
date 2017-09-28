@@ -51,11 +51,12 @@ enum MsgTypeId {
   GetRouteByToolRspId = 5,
   GetRouteByAgentReqId = 6,
   GetRouteByAgentRspId = 7,
-  ReportStatusReqId = 8
+  ReportStatusReqId = 8,
+  GetRouteByAPIReqId = 9
 };
 bool MsgTypeId_IsValid(int value);
 const MsgTypeId MsgTypeId_MIN = GetHostReqId;
-const MsgTypeId MsgTypeId_MAX = ReportStatusReqId;
+const MsgTypeId MsgTypeId_MAX = GetRouteByAPIReqId;
 const int MsgTypeId_ARRAYSIZE = MsgTypeId_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MsgTypeId_descriptor();
@@ -658,12 +659,21 @@ class GetRouteRsp : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::elb::HostAddr >*
       mutable_hosts();
 
+  // optional bool overload = 4;
+  inline bool has_overload() const;
+  inline void clear_overload();
+  static const int kOverloadFieldNumber = 4;
+  inline bool overload() const;
+  inline void set_overload(bool value);
+
   // @@protoc_insertion_point(class_scope:elb.GetRouteRsp)
  private:
   inline void set_has_modid();
   inline void clear_has_modid();
   inline void set_has_cmdid();
   inline void clear_has_cmdid();
+  inline void set_has_overload();
+  inline void clear_has_overload();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -672,6 +682,7 @@ class GetRouteRsp : public ::google::protobuf::Message {
   ::google::protobuf::int32 modid_;
   ::google::protobuf::int32 cmdid_;
   ::google::protobuf::RepeatedPtrField< ::elb::HostAddr > hosts_;
+  bool overload_;
   friend void  protobuf_AddDesc_elb_2eproto();
   friend void protobuf_AssignDesc_elb_2eproto();
   friend void protobuf_ShutdownFile_elb_2eproto();
@@ -1441,6 +1452,30 @@ inline ::google::protobuf::RepeatedPtrField< ::elb::HostAddr >*
 GetRouteRsp::mutable_hosts() {
   // @@protoc_insertion_point(field_mutable_list:elb.GetRouteRsp.hosts)
   return &hosts_;
+}
+
+// optional bool overload = 4;
+inline bool GetRouteRsp::has_overload() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GetRouteRsp::set_has_overload() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GetRouteRsp::clear_has_overload() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GetRouteRsp::clear_overload() {
+  overload_ = false;
+  clear_has_overload();
+}
+inline bool GetRouteRsp::overload() const {
+  // @@protoc_insertion_point(field_get:elb.GetRouteRsp.overload)
+  return overload_;
+}
+inline void GetRouteRsp::set_overload(bool value) {
+  set_has_overload();
+  overload_ = value;
+  // @@protoc_insertion_point(field_set:elb.GetRouteRsp.overload)
 }
 
 // -------------------------------------------------------------------

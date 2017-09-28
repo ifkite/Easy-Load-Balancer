@@ -9,11 +9,12 @@ enum MsgTypeId {
     GetRouteByAgentReqId = 6; //agent get route from dnsserver
     GetRouteByAgentRspId = 7; //dnsserver give route to agent
     ReportStatusReqId    = 8; //agent report lb status to reporter
+    GetRouteByAPIReqId   = 9; //api get route from agent
 }
 
 //represent a remote node
 message HostAddr {
-    required int32 ip  = 1;
+    required int32 ip   = 1;
     required int32 port = 2;
 }
 
@@ -41,17 +42,22 @@ message ReportReq {
     required int32 retcode = 4;
 }
 
-//agent get route from dnsserver (TCP), or tool get route from agent (UDP)
+//agent get route from dnsserver (TCP)
+//or tool get route from agent (UDP)
+//or api get route from agent (UDP)
 message GetRouteReq {
     required int32 modid = 1;
     required int32 cmdid = 2;
 }
 
-//dnsserver give route to agent (TCP), or agent give route to tool (UDP)
+//dnsserver give route to agent (TCP)
+//or agent give route to tool (UDP)
+//or agent give route to api (UDP), overload field is needed
 message GetRouteRsp {
     required int32 modid    = 1;
     required int32 cmdid    = 2;
     repeated HostAddr hosts = 3;
+    optional bool overload  = 4;//for api<->agent
 }
 
 //host call result

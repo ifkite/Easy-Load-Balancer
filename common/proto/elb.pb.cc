@@ -142,10 +142,11 @@ void protobuf_AssignDesc_elb_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(GetRouteReq));
   GetRouteRsp_descriptor_ = file->message_type(5);
-  static const int GetRouteRsp_offsets_[3] = {
+  static const int GetRouteRsp_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GetRouteRsp, modid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GetRouteRsp, cmdid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GetRouteRsp, hosts_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GetRouteRsp, overload_),
   };
   GetRouteRsp_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -263,19 +264,20 @@ void protobuf_AddDesc_elb_2eproto() {
     "\r.elb.HostAddr\"W\n\tReportReq\022\r\n\005modid\030\001 \002"
     "(\005\022\r\n\005cmdid\030\002 \002(\005\022\033\n\004host\030\003 \002(\0132\r.elb.Ho"
     "stAddr\022\017\n\007retcode\030\004 \002(\005\"+\n\013GetRouteReq\022\r"
-    "\n\005modid\030\001 \002(\005\022\r\n\005cmdid\030\002 \002(\005\"I\n\013GetRoute"
+    "\n\005modid\030\001 \002(\005\022\r\n\005cmdid\030\002 \002(\005\"[\n\013GetRoute"
     "Rsp\022\r\n\005modid\030\001 \002(\005\022\r\n\005cmdid\030\002 \002(\005\022\034\n\005hos"
-    "ts\030\003 \003(\0132\r.elb.HostAddr\"W\n\016HostCallResul"
-    "t\022\n\n\002ip\030\001 \002(\005\022\014\n\004port\030\002 \002(\005\022\014\n\004succ\030\003 \002("
-    "\r\022\013\n\003err\030\004 \002(\r\022\020\n\010overload\030\005 \002(\010\"q\n\017Repo"
-    "rtStatusReq\022\r\n\005modid\030\001 \002(\005\022\r\n\005cmdid\030\002 \002("
-    "\005\022\016\n\006caller\030\003 \002(\005\022$\n\007results\030\004 \003(\0132\023.elb"
-    ".HostCallResult\022\n\n\002ts\030\005 \002(\r*\275\001\n\tMsgTypeI"
-    "d\022\020\n\014GetHostReqId\020\001\022\020\n\014GetHostRspId\020\002\022\017\n"
-    "\013ReportReqId\020\003\022\027\n\023GetRouteByToolReqId\020\004\022"
-    "\027\n\023GetRouteByToolRspId\020\005\022\030\n\024GetRouteByAg"
-    "entReqId\020\006\022\030\n\024GetRouteByAgentRspId\020\007\022\025\n\021"
-    "ReportStatusReqId\020\010", 819);
+    "ts\030\003 \003(\0132\r.elb.HostAddr\022\020\n\010overload\030\004 \001("
+    "\010\"W\n\016HostCallResult\022\n\n\002ip\030\001 \002(\005\022\014\n\004port\030"
+    "\002 \002(\005\022\014\n\004succ\030\003 \002(\r\022\013\n\003err\030\004 \002(\r\022\020\n\010over"
+    "load\030\005 \002(\010\"q\n\017ReportStatusReq\022\r\n\005modid\030\001"
+    " \002(\005\022\r\n\005cmdid\030\002 \002(\005\022\016\n\006caller\030\003 \002(\005\022$\n\007r"
+    "esults\030\004 \003(\0132\023.elb.HostCallResult\022\n\n\002ts\030"
+    "\005 \002(\r*\325\001\n\tMsgTypeId\022\020\n\014GetHostReqId\020\001\022\020\n"
+    "\014GetHostRspId\020\002\022\017\n\013ReportReqId\020\003\022\027\n\023GetR"
+    "outeByToolReqId\020\004\022\027\n\023GetRouteByToolRspId"
+    "\020\005\022\030\n\024GetRouteByAgentReqId\020\006\022\030\n\024GetRoute"
+    "ByAgentRspId\020\007\022\025\n\021ReportStatusReqId\020\010\022\026\n"
+    "\022GetRouteByAPIReqId\020\t", 861);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "elb.proto", &protobuf_RegisterTypes);
   HostAddr::default_instance_ = new HostAddr();
@@ -317,6 +319,7 @@ bool MsgTypeId_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
       return true;
     default:
       return false;
@@ -1956,6 +1959,7 @@ void GetRouteReq::Swap(GetRouteReq* other) {
 const int GetRouteRsp::kModidFieldNumber;
 const int GetRouteRsp::kCmdidFieldNumber;
 const int GetRouteRsp::kHostsFieldNumber;
+const int GetRouteRsp::kOverloadFieldNumber;
 #endif  // !_MSC_VER
 
 GetRouteRsp::GetRouteRsp()
@@ -1978,6 +1982,7 @@ void GetRouteRsp::SharedCtor() {
   _cached_size_ = 0;
   modid_ = 0;
   cmdid_ = 0;
+  overload_ = false;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2023,7 +2028,10 @@ void GetRouteRsp::Clear() {
     ::memset(&first, 0, n);                                \
   } while (0)
 
-  ZR_(modid_, cmdid_);
+  if (_has_bits_[0 / 32] & 11) {
+    ZR_(modid_, cmdid_);
+    overload_ = false;
+  }
 
 #undef OFFSET_OF_FIELD_
 #undef ZR_
@@ -2082,6 +2090,21 @@ bool GetRouteRsp::MergePartialFromCodedStream(
           goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_hosts;
+        if (input->ExpectTag(32)) goto parse_overload;
+        break;
+      }
+
+      // optional bool overload = 4;
+      case 4: {
+        if (tag == 32) {
+         parse_overload:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &overload_)));
+          set_has_overload();
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -2127,6 +2150,11 @@ void GetRouteRsp::SerializeWithCachedSizes(
       3, this->hosts(i), output);
   }
 
+  // optional bool overload = 4;
+  if (has_overload()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->overload(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -2154,6 +2182,11 @@ void GetRouteRsp::SerializeWithCachedSizes(
         3, this->hosts(i), target);
   }
 
+  // optional bool overload = 4;
+  if (has_overload()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(4, this->overload(), target);
+  }
+
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -2178,6 +2211,11 @@ int GetRouteRsp::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->cmdid());
+    }
+
+    // optional bool overload = 4;
+    if (has_overload()) {
+      total_size += 1 + 1;
     }
 
   }
@@ -2222,6 +2260,9 @@ void GetRouteRsp::MergeFrom(const GetRouteRsp& from) {
     if (from.has_cmdid()) {
       set_cmdid(from.cmdid());
     }
+    if (from.has_overload()) {
+      set_overload(from.overload());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -2250,6 +2291,7 @@ void GetRouteRsp::Swap(GetRouteRsp* other) {
     std::swap(modid_, other->modid_);
     std::swap(cmdid_, other->cmdid_);
     hosts_.Swap(&other->hosts_);
+    std::swap(overload_, other->overload_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
