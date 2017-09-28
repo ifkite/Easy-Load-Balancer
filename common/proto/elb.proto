@@ -10,6 +10,7 @@ enum MsgTypeId {
     GetRouteByAgentRspId = 7; //dnsserver give route to agent
     ReportStatusReqId    = 8; //agent report lb status to reporter
     GetRouteByAPIReqId   = 9; //api get route from agent
+    GetRouteByAPIRspId   = 10; //agent give route to api
 }
 
 //represent a remote node

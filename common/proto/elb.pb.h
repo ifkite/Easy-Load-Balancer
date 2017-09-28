@@ -52,11 +52,12 @@ enum MsgTypeId {
   GetRouteByAgentReqId = 6,
   GetRouteByAgentRspId = 7,
   ReportStatusReqId = 8,
-  GetRouteByAPIReqId = 9
+  GetRouteByAPIReqId = 9,
+  GetRouteByAPIRspId = 10
 };
 bool MsgTypeId_IsValid(int value);
 const MsgTypeId MsgTypeId_MIN = GetHostReqId;
-const MsgTypeId MsgTypeId_MAX = GetRouteByAPIReqId;
+const MsgTypeId MsgTypeId_MAX = GetRouteByAPIRspId;
 const int MsgTypeId_ARRAYSIZE = MsgTypeId_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* MsgTypeId_descriptor();
